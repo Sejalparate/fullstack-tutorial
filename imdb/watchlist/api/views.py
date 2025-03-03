@@ -1,4 +1,7 @@
-from rest_framework import generics, status
+from django.core.serializers import serialize
+from rest_framework import viewsets, generics, status
+from rest_framework.exceptions import ValidationError
+from rest_framework.generics import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from watchlist.models import WatchList, StreamPlatform, Reviews
@@ -14,13 +17,23 @@ class WatchListDetailAV(generics.RetrieveAPIView):
     queryset = WatchList.objects.all()
     serializer_class = WatchListSerializer
 
+
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer
 
+    def get_queryset(self):
+        return Reviews.objects.all()
+
     def perform_create(self, serializer):
-        pk = self.kwargs['pk']
+        pk = self.kwargs.get('pk')
         item = WatchList.objects.get(pk=pk)
-        serializer.save(watchlist=item)
+
+        author_user = self.request.user
+        review_queryset = Reviews.objects.filter(watchlist=item, author=author_user)
+        if review_queryset.exists():
+            raise ValidationError("You have already reviewed this")
+        serializer.save(watchlist=item, author=author_user)
+
 
 class ReviewList(generics.ListAPIView):
     # queryset = Reviews.objects.all()
@@ -31,19 +44,29 @@ class ReviewList(generics.ListAPIView):
         return Reviews.objects.filter(watchlist=pk)
 
 
-class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Reviews.objects.all()
-    serializer_class = ReviewSerializer
-
-
-class StreamPlatformList(generics.ListCreateAPIView):
+class StreamPlatformVS(viewsets.ModelViewSet):      # ReadOnlyModelViewSet - For removing POST request
     queryset = StreamPlatform.objects.all()
     serializer_class = StreamPlatformSerializer
 
 
-class StreamPlatformDetail(generics.RetrieveAPIView):
-    queryset = StreamPlatform.objects.all()
-    serializer_class = StreamPlatformSerializer
+# class StreamPlatformVS(viewsets.ViewSet):
+#     def list(self, request):
+#         queryset = StreamPlatform.objects.all()
+#         serializer = StreamPlatformSerializer(queryset, many=True)
+#         return Response(serializer.data)
+#
+#     def retrieve(self, request, pk=None):
+#         queryset = StreamPlatform.objects.all()
+#         item = get_object_or_404(queryset, pk=pk)
+#         serializer = StreamPlatformSerializer(item)
+#         return Response(serializer.data)
+#
+#     def create(self, request):
+#         serializer = StreamPlatformSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # class StreamPlatformListAV(APIView):
@@ -58,6 +81,7 @@ class StreamPlatformDetail(generics.RetrieveAPIView):
 #             serializer.save()
 #             return Response(serializer.data)
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#
 #
 # class StreamPlatformDetailAV(APIView):
 #     def get(self, request, pk):
