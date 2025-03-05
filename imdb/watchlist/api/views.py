@@ -2,8 +2,10 @@ from django.core.serializers import serialize
 from rest_framework import viewsets, generics, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from watchlist.api.permissions import AdminOrReadOnly, ReviewUserOrReadOnly
 from watchlist.models import WatchList, StreamPlatform, Reviews
 from watchlist.api.serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
 
@@ -38,10 +40,16 @@ class ReviewCreate(generics.CreateAPIView):
 class ReviewList(generics.ListAPIView):
     # queryset = Reviews.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         pk = self.kwargs['pk']
         return Reviews.objects.filter(watchlist=pk)
+
+class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Reviews.objects.all()
+    serializer_class = ReviewSerializer
+    permission_classes = [ReviewUserOrReadOnly]
 
 
 class StreamPlatformVS(viewsets.ModelViewSet):      # ReadOnlyModelViewSet - For removing POST request
