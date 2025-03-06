@@ -1,5 +1,6 @@
 from django.core.serializers import serialize
 from rest_framework import viewsets, generics, status
+from rest_framework.decorators import api_view
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
@@ -34,6 +35,14 @@ class ReviewCreate(generics.CreateAPIView):
         review_queryset = Reviews.objects.filter(watchlist=item, author=author_user)
         if review_queryset.exists():
             raise ValidationError("You have already reviewed this")
+
+        if item.number_rating == 0:
+            item.avg_rating = serializer.validated_data['rating']
+        else:
+            item.avg_rating = (item.avg_rating + serializer.validated_data['rating']) / 2
+        item.number_rating += 1
+        item.save()
+
         serializer.save(watchlist=item, author=author_user)
 
 
