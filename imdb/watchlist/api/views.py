@@ -4,11 +4,13 @@ from rest_framework.decorators import api_view
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.throttling import AnonRateThrottle
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from watchlist.api.permissions import IsAdminOrReadOnly, IsReviewUserOrReadOnly
 from watchlist.models import WatchList, StreamPlatform, Reviews
 from watchlist.api.serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
+from watchlist.api.throttling import ReviewListThrottle, ReviewCreateThrottle
 
 
 class WatchListAV(APIView):
@@ -61,6 +63,7 @@ class WatchListDetailAV(APIView):
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated]
+    throttle_classes = [ReviewCreateThrottle]
 
     def get_queryset(self):
         return Reviews.objects.all()
@@ -87,6 +90,7 @@ class ReviewCreate(generics.CreateAPIView):
 class ReviewList(generics.ListAPIView):
     # queryset = Reviews.objects.all()
     serializer_class = ReviewSerializer
+    throttle_classes = [ReviewListThrottle, AnonRateThrottle]
     # permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
