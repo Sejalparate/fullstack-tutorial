@@ -27,7 +27,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'watchlist'
+    'watchlist',
+    'user_app'
 ]
 
 MIDDLEWARE = [
@@ -40,7 +41,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'imdb.urls'
+ROOT_URLCONF = 'django-imdb.urls'
 
 TEMPLATES = [
     {
@@ -58,7 +59,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'imdb.wsgi.application'
+WSGI_APPLICATION = 'django-imdb.wsgi.application'
 
 
 # Database
