@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Login, { Profile, Skills, TechStack } from "./User";
 import Clock from "./Clock";
+import College from "./College";
 
 function App() {
   const img_path = "https://media2.dev.to/dynamic/image/width=1080,height=1080,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F096baapsqqt9fks0us99.png";
@@ -14,7 +15,7 @@ function App() {
   const [role, setRole] = useState("");
   const [salary, setSalary] = useState("");
   const [num, setNum] = useState(0);
-  const [color, setColor] = useState('skyblue');
+  const [color, setColor] = useState("skyblue");
 
   const userObj = {
     name: "zxcvbn",
@@ -32,6 +33,29 @@ function App() {
   const handleFruit = () => {
     setFruit("Banana");
   };
+
+  const collegeData = [
+    { name: "IIT Delhi", location: "Delhi", website: "www.iitdelhi.com", students: [
+      { name: "Amit", age: 22, branch: "CSE" },
+      { name: "Sita", age: 21, branch: "ECE" },
+      { name: "Rahul", age: 23, branch: "ME" }
+    ] },
+    { name: "NIT Nagpur", location: "Nagpur", website: "www.nitnagpur.com", students: [
+      { name: "Amit", age: 22, branch: "CSE" },
+      { name: "Sita", age: 21, branch: "ECE" },
+      { name: "Rahul", age: 23, branch: "ME" }
+    ] },
+    { name: "VIT Vellore", location: "Vellore", website: "www.vitvellore.com", students: [
+      { name: "Amit", age: 22, branch: "CSE" },
+      { name: "Sita", age: 21, branch: "ECE" },
+      { name: "Rahul", age: 23, branch: "ME" }
+    ] },
+    { name: "VIIT Pune", location: "Pune", website: "www.viitpune.com", students: [
+      { name: "Amit", age: 22, branch: "CSE" },
+      { name: "Sita", age: 21, branch: "ECE" },
+      { name: "Rahul", age: 23, branch: "ME" }
+    ] }
+  ];
 
   function callFunc() {
     console.log("Function called");
@@ -128,6 +152,10 @@ function App() {
         <option value="green">Green</option>
         <option value="orange">Orange</option>
       </select>
+
+      <br /><br />
+
+      <College data={collegeData}/>
     </div>
   );
 }
