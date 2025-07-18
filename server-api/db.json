@@ -1,0 +1,24 @@
+{
+  "contacts": [
+    {
+      "id": "f32489e3-974a-4b1c-a042-bac7e7c9cb90",
+      "name": "Jalebi",
+      "email": "jalebibai@gamil.com"
+    },
+    {
+      "id": "62153da3-e7ad-4969-b294-b628c50fe573",
+      "name": "Netflix",
+      "email": "admin@example.com"
+    },
+    {
+      "id": "378c4b46-7e57-4a70-8885-e64c27421b70",
+      "name": "Jiohotstar",
+      "email": "hotstar@example.com"
+    },
+    {
+      "id": "4491",
+      "name": "Pudina",
+      "email": "pudinavati@gmail.com"
+    }
+  ]
+}

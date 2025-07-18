@@ -3,3 +3,4 @@
 **\migrations
 **\__pycache__
 .dbsqlite3
+node_modules\
