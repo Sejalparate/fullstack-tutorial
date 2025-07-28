@@ -21,9 +21,9 @@ const EditContact = ({ updateContactHandler }) => {
   };
 
   return (
-    <div style={{ paddingTop: "70px" }}>
+    <div>
       <h2>Edit Contact</h2>
-      <div style={{ background: "#d9d6d6", padding: "30px" }}>
+      <div style={{ background: "#ece9e9", padding: "30px", borderRadius: "10px" }}>
         <form className="ui form" onSubmit={update}>
           <div className="field">
             <label>Name</label>
@@ -44,4 +44,4 @@ const EditContact = ({ updateContactHandler }) => {
   );
 };
 
-export default EditContact;
+export default React.memo(EditContact);

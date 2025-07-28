@@ -7,7 +7,7 @@ const ContactDetails = () => {
   const location = useLocation();
   const {name, email} = location.state.contact;
   return (
-  <div className="main" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',  height: '50%', paddingTop: '80px' }}>
+  <div className="main" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',  height: '50%' }}>
     <div className="ui card centered" style={{ minHeight: '30px', width: '40%', padding: '10px' }}>
       <div className="image">
         <img src={user} alt="user" />
@@ -26,4 +26,4 @@ const ContactDetails = () => {
   );
 };
 
-export default ContactDetails;
+export default React.memo(ContactDetails);

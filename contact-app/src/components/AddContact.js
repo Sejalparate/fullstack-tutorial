@@ -19,9 +19,9 @@ const AddContact = ({ addContactHandler }) => {
   };
 
   return (
-    <div style={{ paddingTop: "70px" }}>
+    <div>
       <h2>Add Contact</h2>
-      <div style={{ background: "#d9d6d6", padding: "30px" }}>
+      <div style={{ background: "#d9d6d6" }}>
         <form className="ui form" onSubmit={add}>
           <div className="field">
             <label>Name</label>
@@ -42,4 +42,4 @@ const AddContact = ({ addContactHandler }) => {
   );
 };
 
-export default AddContact;
+export default React.memo(AddContact);
